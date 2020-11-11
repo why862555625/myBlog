@@ -117,7 +117,7 @@
 
                 display: inline-block;
                 margin: 0 30px;
-                font-size: 1.5rem /* 60/75 */;
+                font-size: 0.347rem  /* 26/75 */ /* 60/75 */;
 
             }
         }
@@ -169,9 +169,7 @@
                 display: block;
                 cursor: pointer;
             }
-            .nav-bar-collapse{
-                margin-top: -50px;
-            }
+
             .nav-bar-nav {
                 /*display: flex;*/
                 /*justify-content: center;*/

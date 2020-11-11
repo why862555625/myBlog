@@ -7,6 +7,7 @@ Vue.config.productionTip = false
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'//编辑器样式
 import './plugins/element.js'
+import './assets/style/global.css'
 Vue.use(mavonEditor)
 axios.defaults.baseURL = 'http://10.30.5.142:8080/'
 Vue.prototype.$http = axios;
