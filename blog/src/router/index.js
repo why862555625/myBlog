@@ -74,6 +74,11 @@ const routes = [
                     }
 
                 ]
+            },
+            // 留言
+            {
+                path: '/blogleaveword',
+                component:()=>import('../views/leaveWord')
             }
 
         ]

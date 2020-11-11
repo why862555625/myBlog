@@ -23,7 +23,7 @@
                                 <router-link to="/bloglist">博客</router-link>
                             </li>
                             <li>
-                                <router-link to="">留言</router-link>
+                                <router-link to="/blogleaveword">留言</router-link>
                             </li>
                             <li>
                                 <router-link to="">评论</router-link>
