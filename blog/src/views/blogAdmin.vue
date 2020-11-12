@@ -21,6 +21,7 @@
                             <el-menu-item-group>
                                 <el-menu-item index="1-1" @click="$router.push('/blogCurrentVersion')">当前版本</el-menu-item>
                                 <el-menu-item index="1-2">历史记录</el-menu-item>
+                                <el-menu-item index="1-3"  @click="$router.push('/blogclassfy')"   >博客分类</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
 
@@ -48,8 +49,7 @@
                                 <el-menu-item index="3-5" @click="$router.push('/deletedword')">回收站</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
-
-                        <el-submenu index="4">
+                        <el-submenu index="5">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
                                 <span>日志</span>

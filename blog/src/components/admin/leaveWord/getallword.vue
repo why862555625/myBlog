@@ -9,13 +9,13 @@
                     width="100">
             </el-table-column>
             <el-table-column
-                    prop="replyId"
+                    prop="pseudonym"
                     label="留言人"
                     width="100">
             </el-table-column>
             <el-table-column
-                    prop="visitorId"
-                    label="回复的ID"
+                    prop="replyId"
+                    label="是否回复"
                     width="100">
             </el-table-column>
             <el-table-column
@@ -32,7 +32,6 @@
                             {{ props.row.messageContent}}
                         </div>
                     </el-card>
-
                 </template>
             </el-table-column>
             <el-table-column
@@ -47,7 +46,6 @@
                 <template slot-scope="scope">
                    {{scope.row.auditStatus}}
                 </template>
-
             </el-table-column>
             <el-table-column
                     prop="isDeleted"
@@ -58,6 +56,14 @@
                 </template>
             </el-table-column>
         </el-table>
+        <!--分页-->
+        <div class="block">
+            <el-pagination
+                    layout="prev, pager, next"
+                    @current-change="getCurrentPage"
+                    :total="totalPage">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -67,20 +73,27 @@
         data(){
             return{
                 dataList:[],
+                allLeaveWord: [],
+                pageIndex: 1,
+                totalPage: 0,
             }
         },
         created() {
             this.getData()
         },
+
         methods:{
             //获取数据
             async getData(){
                 try {
-                    const data=await this.$http.get('/blog/message/getAll')
-                    console.log('all',data)
-                    if (data.data.status=='success'){
 
-                        data.data.result.forEach((i)=>{
+                    const data=await this.$http.get(`/blog/message/getAllManageByPage/${this.pageIndex}`)
+                    this.dataList=[]
+                    if (data.data.status=='success'){
+                        data.data.result.records.forEach((i)=>{
+                            if (i.replyId==null){
+                                i.replyId='否'
+                            }
                             if (i.auditStatus==0){
                                 i.auditStatus='未审核'
                             }else if (i.auditStatus==1){
@@ -90,11 +103,11 @@
                             }
                             this.dataList.push(i)
                         })
+                        this.totalPage=data.data.result.total
                     }
                 }catch (e) {
                     this.$message.error(e)
                 }
-
             },
             //通过
             async auditPass(messageId){
@@ -140,7 +153,13 @@
                 }catch (e) {
                     console.log(e)
                 }
+            },
+            //获取当前页
+            getCurrentPage(pager){
+                this.pageIndex=pager
+                this.getData()
             }
+
         }
     }
 
@@ -148,5 +167,12 @@
 </script>
 
 <style lang="less" scoped>
+.block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-top: 20px;
 
+}
 </style>

@@ -32,7 +32,6 @@
                             {{ props.row.messageContent}}
                         </div>
                     </el-card>
-
                 </template>
             </el-table-column>
             <el-table-column
@@ -47,7 +46,6 @@
                 <template slot-scope="scope">
                     <el-button type="success" size="mini" @click="auditPass(scope.row.messageId)" round>通过</el-button>
                 </template>
-
             </el-table-column>
             <el-table-column
                     prop="isDeleted"
@@ -58,6 +56,15 @@
                 </template>
             </el-table-column>
         </el-table>
+        <!--分页-->
+        <div class="block">
+            <el-pagination
+
+                    layout="prev, pager, next"
+                    @current-change="getCurrentPage"
+                    :total="totalPage">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -67,6 +74,9 @@
         data(){
             return{
                 dataList:[],
+
+                pageIndex: 1,
+                totalPage: 0,
             }
         },
         created() {
@@ -75,9 +85,9 @@
         methods:{
             async getData(){
                 try {
-                    const data=await this.$http.get('/blog/message/getAuditNotPass')
+                    const data=await this.$http.get(`/blog/message/getAllAuditNotPassManageByPage/${this.pageIndex}`)
                     if (data.data.status=='success'){
-                                this.dataList=data.data.result
+                                this.dataList=data.data.result.records
                     }
                 }catch (e) {
                     this.$message.error(e)
@@ -128,6 +138,10 @@
                 }catch (e) {
                     console.log(e)
                 }
+            },
+            getCurrentPage(pager){
+                this.pageIndex=pager
+                this.getData()
             }
         }
     }
@@ -136,5 +150,11 @@
 </script>
 
 <style lang="less" scoped>
-
+    .block{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        margin-top: 20px;
+    }
 </style>

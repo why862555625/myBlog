@@ -10,6 +10,7 @@ import './plugins/element.js'
 import './assets/style/global.css'
 Vue.use(mavonEditor)
 axios.defaults.baseURL = 'http://10.30.5.142:8080/'
+//  axios.defaults.baseURL = 'http://10.30.5.194:8080/'
 Vue.prototype.$http = axios;
 //配置拦截器
 axios.interceptors.request.use(config=>{

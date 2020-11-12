@@ -59,15 +59,26 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div class="block">
+            <el-pagination
+
+                    layout="prev, pager, next"
+                    @current-change="getCurrentPage"
+                    :total="totalPage">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "leaveWord",
+        name: "weiShenHe",
         data(){
             return{
                 dataList:[],
+
+                pageIndex: 1,
+                totalPage: 0,
             }
         },
         created() {
@@ -77,9 +88,9 @@
             //获取数据
             async getData(){
                 try {
-                    const data=await this.$http.get('/blog/message/getAllAudit')
+                    const data=await this.$http.get(`/blog/message/getAllAuditManageByPage/${this.pageIndex}`)
                     if (data.data.status=='success'){
-                        this.dataList=data.data.result
+                        this.dataList=data.data.result.records
                     }
 
                 }catch (e) {
@@ -131,6 +142,10 @@
                 }catch (e) {
                     console.log(e)
                 }
+            },
+            getCurrentPage(pager){
+                this.pageIndex=pager
+                this.getData()
             }
         }
     }
@@ -139,5 +154,11 @@
 </script>
 
 <style lang="less" scoped>
-
+    .block{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        margin-top: 20px;
+    }
 </style>

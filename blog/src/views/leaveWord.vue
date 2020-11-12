@@ -34,7 +34,15 @@
                     </el-timeline-item>
                 </el-timeline>
             </div>
+
+            <!--加载div-->
+            <div class="load">
+                <span ref="loadEnd" class="load-end">到头了</span>
+            </div>
+
+
         </div>
+
     </div>
 </template>
 
@@ -46,12 +54,17 @@
                 textarea: '',
                 // 访客的信息
                 visitor: '',
-                allLeaveWord: ''
+                allLeaveWord: [],
+                pageIndex: 1,
+                totalPage: 0,
             }
         },
         created() {
             this.getVisitorInfo(),
                 this.getAllLeaveWord()
+        },
+        mounted(){
+            window.addEventListener('scroll',this.handleScroll)
         },
         methods: {
             // 添加留言
@@ -86,15 +99,25 @@
             //获取所有审核通过的留言
             async getAllLeaveWord() {
                 try {
-                    const data = await this.$http.get('/blog/message/getAuditPass')
-                    console.log(data)
-                    this.allLeaveWord = data.data.result
+                    const data = await this.$http.get(`/blog/message/getAllByPage/${this.pageIndex}`)
+                    this.allLeaveWord.push(...data.data.result.records)
+                    this.totalPage = data.data.result.pages
                 } catch (e) {
                     this.$message.error('获取留言失败')
                 }
-            }
-        },
-
+            },
+            // 判断是否到底
+            handleScroll(){
+                //是否滚动到底部判断
+                if((document.documentElement.scrollTop+window.innerHeight)>=document.body.offsetHeight){
+                   if (this.pageIndex<this.totalPage){
+                       this.pageIndex+=1
+                       this.getAllLeaveWord()
+                   }else {
+                       this.$refs.loadEnd.style.display='block'
+                   }
+                }},
+        }
     }
 </script>
 
@@ -120,6 +143,27 @@
             border-radius: 50%;
         }
     }
+
+    .load {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .load-end {
+            display: none;
+        }
+        .loading {
+            display: none
+        }
+        span {
+            font-size: 0.347rem /* 26/75 */;
+            text-align: center;
+            margin-top: 10px;
+            margin-left: 10%;
+            display: block;
+        }
+    }
+
 
     .input {
         width: 80%;

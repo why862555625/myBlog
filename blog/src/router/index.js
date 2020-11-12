@@ -27,8 +27,14 @@ const routes = [
                 name: 'content',
                 component: () => import('../views/blogcontent')
             },
+            // 留言
             {
-                // 后台
+                path: '/blogleaveword',
+                component:()=>import('../views/leaveWord')
+            },
+            //后台
+            {
+
                 path: '/admin',
                 component: () => import('../views/blogAdmin'),
                 name:'admin',
@@ -71,15 +77,15 @@ const routes = [
                     },{
                         path: '/allword',
                         component:()=>import('../components/admin/leaveWord/getallword')
+                    },
+                    {
+                        path: '/blogclassfy',
+                        component:()=>import('../components/admin/blog/classify')
                     }
 
                 ]
             },
-            // 留言
-            {
-                path: '/blogleaveword',
-                component:()=>import('../views/leaveWord')
-            }
+
 
         ]
     },
